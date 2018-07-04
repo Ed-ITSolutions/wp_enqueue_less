@@ -1,6 +1,6 @@
 {
-    "name": "ed-itsolutions/wup-client",
-    "description": "WordPress Update Provider client for use in plugins / themes.",
+    "name": "ed-itsolutions/wp_enqueue_less",
+    "description": "Enqueue Less stylesheets in your WordPress code. ",
     "require": {
         "oyejorge/less.php": "v1.7.0.14"
     },
