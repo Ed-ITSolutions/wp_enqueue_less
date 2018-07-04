@@ -34,54 +34,56 @@ function wp_enqueue_less($key, $file, $variables){
   }
 }
 
-add_action('wp_enqueue_less_compile', function($details, $variables){
-  $parser = new Less_Parser();
-  $parser->parseFile($details->file, get_template_directory_uri());
-  $parser->ModifyVars($variables);
-  $css = $parser->getCss();
-  
-  $hash = md5($css);
+if(function_exists('add_action')){
+  add_action('wp_enqueue_less_compile', function($details, $variables){
+    $parser = new Less_Parser();
+    $parser->parseFile($details->file, get_template_directory_uri());
+    $parser->ModifyVars($variables);
+    $css = $parser->getCss();
+    
+    $hash = md5($css);
 
-  $dir = apply_filters('wp_enqueue_less_css_dir', wp_upload_dir()['basedir'] . '/less');
-  if(!file_exists($dir)){
-    mkdir($dir);
-  }
+    $dir = apply_filters('wp_enqueue_less_css_dir', wp_upload_dir()['basedir'] . '/less');
+    if(!file_exists($dir)){
+      mkdir($dir);
+    }
 
-  $file = $dir . '/' . $details->key . '-' . $hash . '.css';
+    $file = $dir . '/' . $details->key . '-' . $hash . '.css';
 
-  file_put_contents($file, $css);
+    file_put_contents($file, $css);
 
-  $details->hash = $hash;
-  
-  $details->fileHashes = array();
-  foreach($parser->allParsedFiles() as $fileName){
-    $details->fileHashes[$fileName] = md5_file($fileName);
-  }
+    $details->hash = $hash;
+    
+    $details->fileHashes = array();
+    foreach($parser->allParsedFiles() as $fileName){
+      $details->fileHashes[$fileName] = md5_file($fileName);
+    }
 
-  $details->variablesHash = md5(json_encode($variables));
+    $details->variablesHash = md5(json_encode($variables));
 
-  update_option($details->setting, $details);
-}, 10, 2);
+    update_option($details->setting, $details);
+  }, 10, 2);
 
-add_action('wp_enqueue_less_clean', function(){
-  $dir = apply_filters('wp_enqueue_less_css_dir', wp_upload_dir()['basedir'] . '/less');
+  add_action('wp_enqueue_less_clean', function(){
+    $dir = apply_filters('wp_enqueue_less_css_dir', wp_upload_dir()['basedir'] . '/less');
 
-  $files = scandir($dir);
+    $files = scandir($dir);
 
-  $keyDetails = array();
+    $keyDetails = array();
 
-  foreach($files as $file){
-    if($file != '.' && $file != '..'){
-      $key = substr($file, 0, -37);
-      $hash = substr($file, -36, -4);
-      
-      if(!isset($keyDetails[$key])){
-        $keyDetails[$key] = get_option('wp_enqueue_less_' . $key, new StdClass);
-      }
+    foreach($files as $file){
+      if($file != '.' && $file != '..'){
+        $key = substr($file, 0, -37);
+        $hash = substr($file, -36, -4);
+        
+        if(!isset($keyDetails[$key])){
+          $keyDetails[$key] = get_option('wp_enqueue_less_' . $key, new StdClass);
+        }
 
-      if($hash != $keyDetails[$key]->hash){
-        unlink($dir . '/' . $file);
+        if($hash != $keyDetails[$key]->hash){
+          unlink($dir . '/' . $file);
+        }
       }
     }
-  }
-});
+  });
+}
