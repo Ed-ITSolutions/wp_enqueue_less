@@ -1,0 +1,19 @@
+{
+    "name": "ed-itsolutions/wup-client",
+    "description": "WordPress Update Provider client for use in plugins / themes.",
+    "require": {
+        "oyejorge/less.php": "v1.7.0.14"
+    },
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Adam Laycock",
+        "email": "adam@arcath.net",
+        "homepage": "https://arcath.net",
+        "role": "Developer"
+      }
+    ],
+    "autoload": {
+      "files": ["wp_enqueue_less.php"]
+  }
+}
