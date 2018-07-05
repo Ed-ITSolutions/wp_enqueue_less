@@ -9,6 +9,8 @@ function wp_enqueue_less($key, $file, $variables){
 
     do_action('wp_enqueue_less_compile', $details, $variables);
   }else{
+    $details->file = $file;
+    
     if(md5(json_encode($variables)) != $details->variablesHash){
       do_action('wp_enqueue_less_compile', $details, $variables);
     }else{
