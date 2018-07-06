@@ -28,7 +28,7 @@ function wp_enqueue_less($key, $file, $variables){
     }
   }
 
-  $baseUri = apply_filters('wp_enqueue_less_css_dir', wp_upload_dir()['baseurl'] . '/less');
+  $baseUri = apply_filters('wp_enqueue_less_css_url', wp_upload_dir()['baseurl'] . '/less');
   wp_enqueue_style($key, $baseUri . '/' . $details->key . '-' . $details->hash . '.css');
 
   if(!wp_next_scheduled('wp_enqueue_less_clean')){
