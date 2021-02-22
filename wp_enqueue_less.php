@@ -38,7 +38,9 @@ function wp_enqueue_less($key, $file, $variables){
 
 if(function_exists('add_action')){
   add_action('wp_enqueue_less_compile', function($details, $variables){
-    $parser = new Less_Parser();
+    $parser = new Less_Parser(array(
+      'compress' => apply_filters('wp_enqueue_less_compress', true)
+    ));
     $parser->parseFile($details->file, get_template_directory_uri());
     $parser->ModifyVars($variables);
     $css = $parser->getCss();

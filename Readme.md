@@ -6,13 +6,13 @@ wp_enqueue_less provides a function to enqueue less stylesheets in WordPress.
 
 ### Composer
 
-Composer is the best way to install wp_enqueue_less so you get updates in the future easily.
+Composer is the best way to install wp_enqueue_less, so you get updates in the future easily.
 
 ```
 composer require ed-itsolutions/wp_enqueue_less
 ```
 
-and then in your `functions.php` of `plugin.php`
+and then in your `functions.php` or `plugin.php`
 
 ```php
 require_once('vendor/autoload.php');
@@ -29,7 +29,7 @@ In your normal `wp_enqueue_scripts` action simply call `wp_enqueue_less`
 `wp_enqueue_less` takes 3 arguments.
 
  - _key_ - The key name to use for this stylesheet.
- - _filePath_ - The on disk path to the .less file.
+ - _filePath_ - The on-disk path to the .less file.
  - _variables_ - A key->value array of variables to be passed to the less compiler.
 
 ```php
@@ -50,3 +50,11 @@ wp_enqueue_less will:
  - Record the current hashes of all the less files used and the variables into the database.
  - On the next call if none of the hashes have changed it will skip parsing.
  - On a daily basis it will clean out its directory of everything but the current hash version of the stylesheet.
+
+### Filters
+
+|Filter|Default|Purpose|
+|:-----|:------|:------|
+|wp_enqueue_less_css_url|`wp_upload_dir()['baseurl'] . '/less'`|The URL of the directory the compiled css is served from.|
+|wp_enqueue_less_css_dir|`wp_upload_dir()['basedir'] . '/less'`|The on-disk directory to serve compiled css from.|
+|wp_enqueue_less_compress|`true`|Should wp_enqueue_less compress the outputted css|
