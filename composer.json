@@ -2,7 +2,7 @@
     "name": "ed-itsolutions/wp_enqueue_less",
     "description": "Enqueue Less stylesheets in your WordPress code. ",
     "require": {
-        "oyejorge/less.php": "v1.7.0.14"
+        "wikimedia/less.php": "^3.1"
     },
     "license": "MIT",
     "authors": [
