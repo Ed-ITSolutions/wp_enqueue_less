@@ -2,7 +2,7 @@
 function wp_enqueue_less($key, $file, $variables){
   $details = get_option('wp_enqueue_less_' . $key, new StdClass);
 
-  if(!$details->key){
+  if(!isset($details->key)){
     $details->key = $key;
     $details->file = $file;
     $details->setting = 'wp_enqueue_less_' . $key;
